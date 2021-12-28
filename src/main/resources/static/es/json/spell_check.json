@@ -1,0 +1,48 @@
+{
+    "settings": {
+      "number_of_shards": "1",
+      "analysis": {
+          "filter": {
+              "my_filter": {
+              "mode": "decompose",
+              "name": "nfc",
+              "type": "icu_normalizer"
+              }
+          },
+          "analyzer": {
+              "nfd_analyzer": {
+              "filter": [
+                  "lowercase"
+              ],
+              "char_filter": [
+                  "nfd_normalizer"
+              ],
+              "tokenizer": "standard"
+              }
+          },
+          "char_filter": {
+              "nfd_normalizer": {
+                  "mode": "decompose",
+                  "name": "nfc",
+                  "type": "icu_normalizer"
+              }
+          }
+      }
+    }, "mappings": {
+      "dynamic": "false",
+      "properties": {
+          "title": {
+          "type": "text",
+          "fields": {
+              "raw": {
+              "type": "keyword"
+              },
+              "spell": {
+              "type": "text",
+              "analyzer": "nfd_analyzer"
+              }
+          }
+      }
+      }
+    }
+  }

@@ -1,0 +1,55 @@
+{
+    "settings": {
+      "analysis": {
+          "tokenizer": {
+              "nori_none": {
+                  "type": "nori_tokenizer",
+                  "decompound_mode": "none"
+              },
+              "nori_discard": {
+                  "type": "nori_tokenizer",
+                  "decompound_mode": "discard"
+              },
+              "nori_mixed": {
+                  "type": "nori_tokenizer",
+                  "decompound_mode": "mixed",
+                  "user_dictionary": "userdict.txt",
+                  "updateable": true
+              }
+          },
+          "analyzer": {
+              "korean": {
+                  "type": "nori",
+                  "stopwords": "_korean_"
+              },
+              "custom_searcher": {
+                  "tokenizer": "nori_tokenizer",
+                  "filter": ["lowercase", "trim", "do_synonyms"]
+              }
+          },
+          "filter": {
+              "do_synonyms": {
+                  "type": "synonym",
+                  "synonyms_path": "synonyms.txt"
+              }
+          }
+      }
+    }, "mappings": {
+      "dynamic": "false",
+      "properties": {
+          "id": {
+              "type": "long"
+          },
+          "title": {
+              "type": "text",
+              "analyzer": "custom_searcher",
+              "search_analyzer": "custom_searcher",
+              "fields": {
+                  "keyword": {
+                      "type": "keyword"
+                  }
+              }
+          }
+        }
+      }
+  }
